@@ -1,9 +1,10 @@
 plugins {
     id 'org.springframework.boot' version '2.2.5.RELEASE'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
-    id 'java'
     id "org.sonarqube" version "2.8"
+    id 'java'
     id 'jacoco'
+    id 'checkstyle'
 }
 
 group = 'me.jysh'
@@ -29,15 +30,6 @@ dependencies {
     }
 }
 
-sonarqube {
-    properties {
-        property "sonar.projectKey", "codeghoul_spring-cicd-demo"
-        property "sonar.organization", "codeghoul"
-        property "sonar.host.url", "https://sonarcloud.io"
-        property "sonar.coverage.jacoco.xmlReportPaths", "${rootProject.buildDir}/reports/jacoco/test/jacocoTestReport.xml"
-    }
-}
-
 jacoco {
     toolVersion = "0.8.1"
 }
@@ -46,15 +38,8 @@ jacocoTestReport {
     reports {
         xml.enabled true
         csv.enabled false
-        html {
-            enabled true
-            destination file("$buildDir/reports/jacoco")
-        }
-        afterEvaluate {
-            classDirectories = files(classDirectories.files.collect {
-                fileTree(dir: it, excludes: [])
-            })
-        }
+        html.enabled true
+        html.destination file("$buildDir/reports/jacoco")
     }
 }
 
@@ -80,8 +65,36 @@ jacocoTestCoverageVerification {
     }
 }
 
-jacocoTestCoverageVerification.dependsOn jacocoTestReport
+sonarqube {
+    properties {
+        property "sonar.projectKey", "codeghoul_spring-cicd-demo"
+        property "sonar.organization", "codeghoul"
+        property "sonar.host.url", "https://sonarcloud.io"
+        property "sonar.coverage.jacoco.xmlReportPaths", "${rootProject.buildDir}/reports/jacoco/test/jacocoTestReport.xml"
+    }
+}
+
+checkstyle {
+    toolVersion = '8.12'
+    configFile = file("${rootDir}/config/checkstyle/checkstyle.xml")
+}
+
+checkstyleMain {
+    source = 'src/main/java'
+}
+checkstyleTest {
+    source = 'src/test/java'
+}
+
+tasks.withType(Checkstyle) {
+    reports {
+        xml.enabled false
+        html.enabled true
+    }
+}
+
 test.finalizedBy jacocoTestReport
+jacocoTestCoverageVerification.dependsOn jacocoTestReport
 check.dependsOn jacocoTestCoverageVerification
 
 test {
