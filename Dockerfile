@@ -1,8 +1,8 @@
 FROM openjdk:11-jre-slim
 
-# to run the app as a non-root user commented till more knowledge.
-#RUN groupadd -g ${gid} ${group} && useradd -u ${uid} -g ${group} -s /bin/sh ${user}
-#USER {user}:{user}
+# to run the app as a non-root user.
+RUN groupadd -g 1000 spring && useradd -u 1000 -g spring -s /bin/sh spring
+USER spring:spring
 
 ARG DEPENDENCY=build/dependency
 COPY ${DEPENDENCY}/BOOT-INF/lib /app/lib
