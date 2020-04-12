@@ -1,11 +1,8 @@
 FROM openjdk:11-jre-slim
 
-# to run the app as a non-root user
-RUN addgroup -S spring && adduser -S spring -G spring
-USER spring:spring
-
-# ARG JAR_FILE=build/libs/*.jar
-# COPY ${JAR_FILE} app.jar
+# to run the app as a non-root user commented till more knowledge.
+#RUN groupadd -g ${gid} ${group} && useradd -u ${uid} -g ${group} -s /bin/sh ${user}
+#USER {user}:{user}
 
 ARG DEPENDENCY=build/dependency
 COPY ${DEPENDENCY}/BOOT-INF/lib /app/lib
