@@ -9,7 +9,7 @@ plugins {
 
 group = 'me.jysh'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
+sourceCompatibility = '11'
 
 configurations {
     compileOnly {
@@ -31,7 +31,7 @@ dependencies {
 }
 
 jacoco {
-    toolVersion = "0.8.1"
+    toolVersion = "0.8.5"
 }
 
 jacocoTestReport {

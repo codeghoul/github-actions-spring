@@ -1,4 +1,4 @@
-FROM openjdk:8-jdk-alpine
+FROM openjdk:11-jre-slim
 
 # to run the app as a non-root user
 RUN addgroup -S spring && adduser -S spring -G spring
