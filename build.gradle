@@ -5,6 +5,7 @@ plugins {
     id 'java'
     id 'jacoco'
     id 'checkstyle'
+    id 'net.researchgate.release' version '2.6.0'
 }
 
 group = 'me.jysh'
@@ -31,6 +32,27 @@ dependencies {
     testImplementation 'org.testcontainers:postgresql:1.13.0'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+}
+
+release {
+    failOnUpdateNeeded = false
+    failOnCommitNeeded = false
+    failOnUnversionedFiles = false
+    failOnSnapshotDependencies = false
+    tagTemplate = '$version'
+    newVersionCommitMessage = 'Update Development Version [ci skip]'
+    tagCommitMessage = 'Tag with Released Version [ci skip]'
+    preTagCommitMessage = 'Process Gradle Release [ci skip]'
+    versionPropertyFile = 'gradle.properties'
+    buildTasks = ['build']
+
+    git {
+        requireBranch = ''
+        pushToRemote = 'origin'
+        pushToBranchPrefix = ''
+        commitVersionFileOnly = false
+        signTag = false
     }
 }
 
