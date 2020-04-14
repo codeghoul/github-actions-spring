@@ -45,7 +45,6 @@ release {
     tagCommitMessage = 'Tag with Released Version [ci skip]'
     preTagCommitMessage = 'Process Gradle Release [ci skip]'
     versionPropertyFile = 'gradle.properties'
-    buildTasks = ['build']
 
     git {
         requireBranch = ''
