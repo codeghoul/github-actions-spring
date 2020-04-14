@@ -98,5 +98,7 @@ jobs:
           run: |
             git remote add github "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
             git pull github ${GITHUB_REF} --ff-only
+            git config --global user.name codeghoul
+            git config --global user.email jayesh.patel.2197@gmail.com
         - name: Release 
           run: ./gradlew release -Prelease.useAutomaticVersion=true
